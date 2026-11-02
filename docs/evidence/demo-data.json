@@ -1,0 +1,46 @@
+[
+  {
+    "id": "766e71b3-943d-42b4-819a-77b6213ef7e4",
+    "course": "ENSE701",
+    "title": "Assignment 1 report",
+    "weight": 20,
+    "dueDate": "2026-11-03T15:59:00.000Z",
+    "status": "todo",
+    "notes": "Finalise evidence index",
+    "createdAt": "2026-11-02T15:58:56.463Z",
+    "updatedAt": "2026-11-02T15:58:56.463Z"
+  },
+  {
+    "id": "996d069d-3711-41ae-92d4-fe63b182d792",
+    "course": "COMP728",
+    "title": "Locker demo",
+    "weight": 20,
+    "dueDate": "2026-11-06T15:59:00.000Z",
+    "status": "doing",
+    "notes": "Test the ultrasonic threshold",
+    "createdAt": "2026-11-02T15:58:56.492Z",
+    "updatedAt": "2026-11-02T15:58:56.492Z"
+  },
+  {
+    "id": "4dd0f5d6-5dd9-4fb8-b95d-6426cdb15153",
+    "course": "INFS704",
+    "title": "Assignment 3 critical analysis",
+    "weight": 30,
+    "dueDate": "2026-12-04T15:59:00.000Z",
+    "status": "todo",
+    "notes": "Draft the reflection section",
+    "createdAt": "2026-11-02T15:58:56.494Z",
+    "updatedAt": "2026-11-02T15:58:56.494Z"
+  },
+  {
+    "id": "bfe3ca49-b5c6-4e95-9a31-13becf873f69",
+    "course": "ENSE701",
+    "title": "Tutorial worksheet 2",
+    "weight": 5,
+    "dueDate": "2026-10-28T15:59:00.000Z",
+    "status": "done",
+    "notes": "",
+    "createdAt": "2026-11-02T15:58:56.496Z",
+    "updatedAt": "2026-11-02T15:58:56.496Z"
+  }
+]
