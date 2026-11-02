@@ -1,8 +1,8 @@
-import test from 'node:test';
+﻿import test from 'node:test';
 import assert from 'node:assert/strict';
 import { buildIcs } from '../src/ics.js';
 
-test('US-08: calendar export contains one event per assignment with CRLF endings', () => {
+test('US-07: calendar export contains one event per assignment with CRLF endings', () => {
   const now = new Date('2026-11-10T12:00:00Z');
   const ics = buildIcs(
     [
@@ -24,3 +24,4 @@ test('US-08: calendar export contains one event per assignment with CRLF endings
   assert.match(ics, /SUMMARY:ENSE701: Assignment 1\\; report\\, final/);
   assert.match(ics, /DESCRIPTION:line one\\nline two/);
 });
+

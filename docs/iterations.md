@@ -53,17 +53,49 @@ retrospective actions.
 | Lead time for the trial change | First commit on the branch → merge | measured in iteration 2 |
 | Rework | Commits that fix a defect found by testing after the first implementation | 3 |
 
-## Iteration 2 (planned)
+## Iteration 2
 
 - **Dates:** week 2, 3–7 November 2026
 - **Goal:** deadline risk is visible at a glance, and the workflow is proven by a
   tracked, reviewed, tested change rather than by assertion.
 - **Backlog committed:** US-04 (trial change), CI workflow, retrospective actions 1–4
-- **Planned evidence:** `docs/review-record.md` (test-first sequence, review
-  findings), CI run log, updated traceability row.
-- **Success measure:** the trial change merges with all acceptance criteria
-  covered by tests and zero defects found after merge.
+- **Roles:** as iteration 1, with the reviewer role held against the checklist in
+  `docs/review-record.md` rather than informally.
+- **Delivered:** US-04 (urgency classification, prioritised ordering, badge and
+  state styling), the GitHub Actions workflow, and one review-driven defect fix.
+- **Not delivered:** US-08, US-09 (carried into Assignment 2).
 
 ### Outcome
 
-To be completed at the end of iteration 2.
+| Item | Acceptance criteria met | Verification |
+| ---- | ----------------------- | ------------ |
+| US-04 urgency classification, ordering, visual state | Yes | 4 tests in `test/assignments.test.js`, 1 in `test/api.test.js` |
+| Test-first discipline | Yes | red run 3/7 → green run 16/16 (`docs/evidence/iteration-2/`) |
+| CI workflow (Node 20/22/24) | Configured | `.github/workflows/ci.yml` |
+| Traceability row in the same commit | Yes | `docs/traceability.md` |
+| Review finding R-1 (overdue items reported 0 days) | Fixed before merge | regression test `review R-1` |
+
+`npm test`: **16 passing, 0 failing**. Change size: 3 files, +66 / −7 lines.
+
+### Process comparison (iteration 1 → iteration 2)
+
+| Measure | Definition | Iteration 1 | Iteration 2 |
+| ------- | ---------- | ----------- | ----------- |
+| Automated tests | Passing `node:test` cases | 13 | 16 |
+| Requirement coverage | Stories with ≥ 1 test ÷ committed stories | 6 / 6 | 7 / 7 |
+| Rework | Defects found by testing after the first implementation | 3 | 1 (found in review, before merge) |
+| Change size | Lines in the trial change | — | +66 / −7 across 3 files |
+| Verification | When tests were run | manually, after the fact | before implementation (red) and after (green) |
+
+### Retrospective
+
+The two iteration 1 actions that were actually taken — writing the tests first and
+recording traceability in the same commit — both produced a visible effect: the
+change produced a red run before any implementation existed, and the only defect
+that survived to review (R-1, day rounding) was caught by reading the diff against
+the acceptance criteria rather than by luck. Iteration 1's rework count of three
+problems found after implementation fell to one.
+
+The remaining weakness is unchanged and now clearly the largest one: the browser
+layer is verified only by hand. That is the first item for Assignment 2, together
+with US-08 and US-09.

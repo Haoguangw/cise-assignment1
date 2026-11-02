@@ -1,4 +1,4 @@
-import test from 'node:test';
+﻿import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createServer } from 'node:http';
 import { mkdtemp, rm } from 'node:fs/promises';
@@ -133,7 +133,7 @@ test('US-06: list can be filtered by status', async () => {
   }
 });
 
-test('US-07: overdue assignments are returned first by the API', async () => {
+test('US-04: overdue assignments are returned first by the API', async () => {
   const app = await startServer();
   try {
     for (const dueDate of ['2026-12-01', '2026-11-05']) {
@@ -151,3 +151,4 @@ test('US-07: overdue assignments are returned first by the API', async () => {
     await app.close();
   }
 });
+

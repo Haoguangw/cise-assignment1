@@ -3,6 +3,14 @@
 
 export const STATUSES = ['todo', 'doing', 'done'];
 
+export const URGENCY = {
+  OVERDUE: 'overdue',
+  DUE_SOON: 'due-soon',
+  UPCOMING: 'upcoming',
+  DONE: 'done',
+};
+
+const DUE_SOON_WINDOW_MS = 72 * 60 * 60 * 1000; // 72 hours
 const MAX_NOTE_LENGTH = 500;
 
 /**
@@ -65,24 +73,52 @@ export function parseDueDate(raw) {
 }
 
 /**
- * Display order: earliest deadline first.
- * @param {Array} assignments
+ * Classify an assignment relative to a reference time.
+ * @param {{dueDate: string, status: string}} assignment
+ * @param {Date} now
+ * @returns {string}
  */
-export function sortByDueDate(assignments) {
-  return [...assignments].sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
+export function urgencyOf(assignment, now = new Date()) {
+  if (assignment.status === 'done') return URGENCY.DONE;
+  const remaining = new Date(assignment.dueDate).getTime() - now.getTime();
+  if (remaining < 0) return URGENCY.OVERDUE;
+  if (remaining <= DUE_SOON_WINDOW_MS) return URGENCY.DUE_SOON;
+  return URGENCY.UPCOMING;
+}
+
+/**
+ * Display order: open work first, most urgent first; completed work last.
+ * @param {Array} assignments
+ * @param {Date} now
+ */
+export function sortForDisplay(assignments, now = new Date()) {
+  const rank = { [URGENCY.OVERDUE]: 0, [URGENCY.DUE_SOON]: 1, [URGENCY.UPCOMING]: 2, [URGENCY.DONE]: 3 };
+  return [...assignments].sort((a, b) => {
+    const byRank = rank[urgencyOf(a, now)] - rank[urgencyOf(b, now)];
+    if (byRank !== 0) return byRank;
+    return new Date(a.dueDate) - new Date(b.dueDate);
+  });
 }
 
 /**
  * Add derived, read-only fields used by the API and the browser client.
  */
 export function decorate(assignment, now = new Date()) {
+  const urgency = urgencyOf(assignment, now);
   const remaining = new Date(assignment.dueDate).getTime() - now.getTime();
+  // Round towards zero in both directions, so that "12 hours late" reports -1 day
+  // rather than 0: a positive day count would contradict urgency === 'overdue'.
+  const daysRemaining =
+    remaining < 0
+      ? Math.floor(remaining / (24 * 60 * 60 * 1000))
+      : Math.ceil(remaining / (24 * 60 * 60 * 1000));
   return {
     ...assignment,
-    daysRemaining: Math.ceil(remaining / (24 * 60 * 60 * 1000)),
+    urgency,
+    daysRemaining,
   };
 }
 
 export function decorateAll(assignments, now = new Date()) {
-  return sortByDueDate(assignments).map((item) => decorate(item, now));
+  return sortForDisplay(assignments, now).map((item) => decorate(item, now));
 }

@@ -113,3 +113,16 @@ test('US-04: decorate exposes urgency and days remaining for the client', () => 
   assert.equal(decorated.urgency, URGENCY.DUE_SOON);
   assert.equal(decorated.daysRemaining, 3);
 });
+
+// Review finding R-1 (docs/review-record.md): an item that is a few hours late
+// used to report 0 days remaining, which contradicts urgency === 'overdue'.
+test('review R-1: an assignment 12 hours overdue reports -1 day, not 0', () => {
+  const now = new Date('2026-11-10T12:00:00Z');
+  const decorated = decorate(
+    { id: 'a', course: 'ENSE701', title: 'Report', weight: 20, dueDate: '2026-11-10T00:00:00Z', status: 'todo' },
+    now,
+  );
+
+  assert.equal(decorated.urgency, URGENCY.OVERDUE);
+  assert.equal(decorated.daysRemaining, -1);
+});
