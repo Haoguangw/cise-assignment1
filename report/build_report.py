@@ -24,7 +24,7 @@ TITLE_BLOCK = [
     ("2 November 2026", 11, False),
     ("", 11, False),
     ("Repository: github.com/Haoguangw/cise-assignment1", 10, False),
-    ("Submission commit: 28d2375 (tag a1-submission)", 10, False),
+    ("Submission release: tag a1-submission", 10, False),
     ("Individual submission, approved by the course lecturer", 10, False),
     ("Word count (main text, tables, citations, contribution statement): {wc}", 10, False),
 ]
