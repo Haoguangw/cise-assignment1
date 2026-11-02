@@ -46,6 +46,7 @@ test('US-01/US-02: POST creates an assignment and GET returns it with derived fi
     const { assignment } = await created.json();
     assert.ok(assignment.id);
     assert.equal(assignment.course, 'ENSE701');
+    assert.equal(assignment.urgency, 'upcoming');
     assert.equal(typeof assignment.daysRemaining, 'number');
 
     const listed = await fetch(`${app.base}/api/assignments`);
@@ -97,6 +98,7 @@ test('US-05: PATCH marks an assignment done and DELETE removes it', async () => 
     assert.equal(patched.status, 200);
     const updated = await patched.json();
     assert.equal(updated.assignment.status, 'done');
+    assert.equal(updated.assignment.urgency, 'done');
 
     const removed = await fetch(`${app.base}/api/assignments/${id}`, { method: 'DELETE' });
     assert.equal(removed.status, 204);
@@ -126,6 +128,25 @@ test('US-06: list can be filtered by status', async () => {
 
     const bad = await fetch(`${app.base}/api/assignments?status=whatever`);
     assert.equal(bad.status, 400);
+  } finally {
+    await app.close();
+  }
+});
+
+test('US-07: overdue assignments are returned first by the API', async () => {
+  const app = await startServer();
+  try {
+    for (const dueDate of ['2026-12-01', '2026-11-05']) {
+      await fetch(`${app.base}/api/assignments`, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ ...sample, dueDate }),
+      });
+    }
+
+    const data = await (await fetch(`${app.base}/api/assignments`)).json();
+    assert.equal(data.assignments[0].urgency, 'overdue');
+    assert.equal(data.assignments[1].urgency, 'upcoming');
   } finally {
     await app.close();
   }
