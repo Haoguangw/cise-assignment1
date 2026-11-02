@@ -51,6 +51,14 @@ temporary data file, so they never touch `data/assignments.json`.
 `dueDate` accepts `YYYY-MM-DD` (treated as the end of that day) or a full ISO
 8601 timestamp. Invalid payloads return `422` with a `details` array.
 
+Responses add two derived, read-only fields:
+
+- `urgency` — `overdue`, `due-soon` (within 72 hours), `upcoming` or `done`
+- `daysRemaining` — whole days until the deadline, negative once it has passed
+
+The list is ordered `overdue` → `due-soon` → `upcoming` → `done`, and within a
+band by earliest deadline.
+
 ## Layout
 
 ```

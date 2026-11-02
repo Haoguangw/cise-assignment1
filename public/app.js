@@ -6,7 +6,12 @@ const listEl = document.querySelector('#assignment-list');
 const emptyEl = document.querySelector('#empty-state');
 const filterEl = document.querySelector('#filter');
 
-const URGENCY_LABEL = {};
+const URGENCY_LABEL = {
+  overdue: 'overdue',
+  'due-soon': 'due in 3 days',
+  upcoming: 'upcoming',
+  done: 'done',
+};
 
 function setMessage(text, isError = false) {
   formMessage.textContent = text;
@@ -42,7 +47,7 @@ function render(assignments) {
 
   for (const item of assignments) {
     const li = document.createElement('li');
-    li.className = `item ${item.status}`;
+    li.className = `item ${item.urgency}`;
     li.dataset.id = item.id;
 
     const info = document.createElement('div');
@@ -51,6 +56,10 @@ function render(assignments) {
 
     const meta = document.createElement('p');
     meta.className = 'meta';
+    const badge = document.createElement('span');
+    badge.className = 'badge';
+    badge.textContent = URGENCY_LABEL[item.urgency] ?? item.urgency;
+    meta.append(badge);
     meta.append(
       `${item.course} · ${formatDue(item.dueDate, item.daysRemaining)} · worth ${item.weight}%`,
     );

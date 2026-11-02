@@ -3,8 +3,10 @@ import assert from 'node:assert/strict';
 import {
   validateAssignment,
   parseDueDate,
-  sortByDueDate,
+  urgencyOf,
+  sortForDisplay,
   decorate,
+  URGENCY,
 } from '../src/assignments.js';
 
 test('US-01: a complete assignment is accepted and normalised', () => {
@@ -71,25 +73,56 @@ test('US-03: date-only input is anchored to the end of that day', () => {
   assert.equal(parsed.getHours(), 23);
 });
 
-test('US-04: open assignments are listed in due-date order', () => {
+test('US-04: urgency is overdue, due-soon, upcoming or done', () => {
+  const now = new Date('2026-11-10T12:00:00Z');
+  const base = { course: 'ENSE701', title: 'Report', weight: 20 };
+
+  const overdue = { ...base, dueDate: '2026-11-09T23:59:00Z', status: 'todo' };
+  const soon = { ...base, dueDate: '2026-11-12T09:00:00Z', status: 'doing' };
+  const upcoming = { ...base, dueDate: '2026-11-30T09:00:00Z', status: 'todo' };
+  const done = { ...base, dueDate: '2026-11-01T09:00:00Z', status: 'done' };
+
+  assert.equal(urgencyOf(overdue, now), URGENCY.OVERDUE);
+  assert.equal(urgencyOf(soon, now), URGENCY.DUE_SOON);
+  assert.equal(urgencyOf(upcoming, now), URGENCY.UPCOMING);
+  assert.equal(urgencyOf(done, now), URGENCY.DONE);
+});
+
+test('US-04: overdue items sort before due-soon, upcoming and done', () => {
+  const now = new Date('2026-11-10T12:00:00Z');
   const items = [
     { id: 'c', dueDate: '2026-12-01T09:00:00Z', status: 'todo' },
+    { id: 'd', dueDate: '2026-11-01T09:00:00Z', status: 'done' },
     { id: 'a', dueDate: '2026-11-05T09:00:00Z', status: 'todo' },
     { id: 'b', dueDate: '2026-11-11T09:00:00Z', status: 'doing' },
   ];
 
   assert.deepEqual(
-    sortByDueDate(items).map((item) => item.id),
-    ['a', 'b', 'c'],
+    sortForDisplay(items, now).map((item) => item.id),
+    ['a', 'b', 'c', 'd'],
   );
 });
 
-test('US-04: decorate exposes days remaining for the client', () => {
+test('US-04: decorate exposes urgency and days remaining for the client', () => {
   const now = new Date('2026-11-10T12:00:00Z');
   const decorated = decorate(
     { id: 'a', course: 'ENSE701', title: 'Report', weight: 20, dueDate: '2026-11-13T12:00:00Z', status: 'todo' },
     now,
   );
 
+  assert.equal(decorated.urgency, URGENCY.DUE_SOON);
   assert.equal(decorated.daysRemaining, 3);
+});
+
+// Review finding R-1 (docs/review-record.md): an item that is a few hours late
+// used to report 0 days remaining, which contradicts urgency === 'overdue'.
+test('review R-1: an assignment 12 hours overdue reports -1 day, not 0', () => {
+  const now = new Date('2026-11-10T12:00:00Z');
+  const decorated = decorate(
+    { id: 'a', course: 'ENSE701', title: 'Report', weight: 20, dueDate: '2026-11-10T00:00:00Z', status: 'todo' },
+    now,
+  );
+
+  assert.equal(decorated.urgency, URGENCY.OVERDUE);
+  assert.equal(decorated.daysRemaining, -1);
 });

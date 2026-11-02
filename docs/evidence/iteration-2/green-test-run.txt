@@ -1,0 +1,25 @@
+﻿✔ US-01/US-02: POST creates an assignment and GET returns it with derived fields (48.1921ms)
+✔ US-03: invalid payload returns 422 with field-level details (9.8377ms)
+✔ US-05: PATCH marks an assignment done and DELETE removes it (14.9129ms)
+✔ US-06: list can be filtered by status (12.9747ms)
+✔ US-07: overdue assignments are returned first by the API (10.0358ms)
+✔ US-01: a complete assignment is accepted and normalised (1.6209ms)
+✔ US-03: missing course and title are rejected with readable errors (0.5746ms)
+✔ US-03: weight outside 0-100 is rejected (0.7857ms)
+✔ US-03: unknown status is rejected (0.1483ms)
+✔ US-03: a malformed due date is rejected (0.1387ms)
+✔ US-03: date-only input is anchored to the end of that day (0.09ms)
+✔ US-04: urgency is overdue, due-soon, upcoming or done (0.1479ms)
+✔ US-04: overdue items sort before due-soon, upcoming and done (0.1616ms)
+✔ US-04: decorate exposes urgency and days remaining for the client (0.1338ms)
+✔ review R-1: an assignment 12 hours overdue reports -1 day, not 0 (0.1289ms)
+✔ US-08: calendar export contains one event per assignment with CRLF endings (1.4708ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 16
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 200.0495
+node v24.14.1

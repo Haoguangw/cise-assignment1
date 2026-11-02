@@ -177,7 +177,27 @@ button:hover,
   color: var(--muted);
 }
 
-/* Left border colour carries the state of an assignment. */
+/* US-04: urgency is visible without reading the dates. */
+.item.overdue {
+  border-left-color: var(--overdue);
+  background: #fdf3f3;
+}
+
+.item.overdue .badge {
+  background: #fbe0e0;
+  color: var(--overdue);
+}
+
+.item.due-soon {
+  border-left-color: var(--soon);
+  background: #fffaf0;
+}
+
+.item.due-soon .badge {
+  background: #fdefd6;
+  color: var(--soon);
+}
+
 .item.done {
   opacity: 0.62;
 }
