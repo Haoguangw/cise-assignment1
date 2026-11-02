@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DueMate — assignment deadline tracker</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <h1>DueMate</h1>
+      <p class="tagline">Track course deadlines, weights and status in one list.</p>
+    </header>
+
+    <main>
+      <section class="panel" aria-labelledby="add-heading">
+        <h2 id="add-heading">Add an assignment</h2>
+        <form id="assignment-form" novalidate>
+          <div class="grid">
+            <label>
+              Course
+              <input name="course" required maxlength="80" placeholder="ENSE701" />
+            </label>
+            <label>
+              Assignment
+              <input name="title" required maxlength="120" placeholder="Assignment 1 report" />
+            </label>
+            <label>
+              Due date
+              <input name="dueDate" type="date" required />
+            </label>
+            <label>
+              Weight (%)
+              <input name="weight" type="number" min="0" max="100" step="0.5" value="20" required />
+            </label>
+            <label>
+              Status
+              <select name="status">
+                <option value="todo">todo</option>
+                <option value="doing">doing</option>
+                <option value="done">done</option>
+              </select>
+            </label>
+            <label class="wide">
+              Notes (optional)
+              <input name="notes" maxlength="500" placeholder="What is left to do?" />
+            </label>
+          </div>
+          <div class="actions">
+            <button type="submit">Add assignment</button>
+            <a class="button secondary" href="/api/export.ics">Export calendar (.ics)</a>
+            <span id="form-message" role="status" aria-live="polite"></span>
+          </div>
+        </form>
+      </section>
+
+      <section class="panel" aria-labelledby="list-heading">
+        <div class="panel-head">
+          <h2 id="list-heading">Open assignments</h2>
+          <label class="inline">
+            Filter
+            <select id="filter">
+              <option value="">all</option>
+              <option value="todo">todo</option>
+              <option value="doing">doing</option>
+              <option value="done">done</option>
+            </select>
+          </label>
+        </div>
+        <ul id="assignment-list" class="list"></ul>
+        <p id="empty-state" class="empty" hidden>No assignments yet — add the first one above.</p>
+      </section>
+    </main>
+
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>

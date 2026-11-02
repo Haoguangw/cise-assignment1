@@ -1,0 +1,216 @@
+:root {
+  --bg: #f5f6f8;
+  --panel: #ffffff;
+  --ink: #1c2430;
+  --muted: #5d6b7a;
+  --line: #dfe4ea;
+  --accent: #2c6bed;
+  --overdue: #c62828;
+  --soon: #b26a00;
+  --done: #6b7a8a;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0 0 3rem;
+  background: var(--bg);
+  color: var(--ink);
+  font: 15px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+.topbar {
+  padding: 1.5rem 1.25rem 1rem;
+  background: #1f2b3a;
+  color: #fff;
+}
+
+.topbar h1 {
+  margin: 0;
+  font-size: 1.4rem;
+  letter-spacing: 0.02em;
+}
+
+.tagline {
+  margin: 0.25rem 0 0;
+  color: #b9c6d4;
+  font-size: 0.9rem;
+}
+
+main {
+  max-width: 860px;
+  margin: 1.25rem auto 0;
+  padding: 0 1rem;
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 1rem 1.15rem 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.panel h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+.panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.75rem;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+label.wide {
+  grid-column: 1 / -1;
+}
+
+input,
+select {
+  font: inherit;
+  padding: 0.45rem 0.55rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--ink);
+}
+
+input:focus,
+select:focus {
+  outline: 2px solid rgba(44, 107, 237, 0.35);
+  border-color: var(--accent);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.9rem;
+  flex-wrap: wrap;
+}
+
+button,
+.button {
+  font: inherit;
+  padding: 0.5rem 0.9rem;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.button.secondary {
+  background: #eef3fd;
+  color: var(--accent);
+  border-color: #c9d9fb;
+}
+
+button:hover,
+.button:hover {
+  filter: brightness(0.96);
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.5rem 1rem;
+  border: 1px solid var(--line);
+  border-left: 5px solid var(--line);
+  border-radius: 8px;
+  padding: 0.7rem 0.85rem;
+  background: #fff;
+}
+
+.item h3 {
+  margin: 0;
+  font-size: 0.98rem;
+}
+
+.item .meta {
+  margin: 0.2rem 0 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.item .badge {
+  display: inline-block;
+  margin-right: 0.4rem;
+  padding: 0.05rem 0.45rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background: #eef1f5;
+  color: var(--muted);
+}
+
+/* Left border colour carries the state of an assignment. */
+.item.done {
+  opacity: 0.62;
+}
+
+.item.done h3 {
+  text-decoration: line-through;
+}
+
+.item-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.item-actions button {
+  background: #eef1f5;
+  color: var(--ink);
+  border-color: var(--line);
+  padding: 0.3rem 0.6rem;
+  font-size: 0.8rem;
+}
+
+.item-actions .danger {
+  color: var(--overdue);
+}
+
+.empty {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+@media (max-width: 560px) {
+  .item {
+    grid-template-columns: 1fr;
+  }
+}
