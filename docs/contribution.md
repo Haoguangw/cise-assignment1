@@ -28,9 +28,9 @@ each can still be checked.
 
 ## Declaration
 
-I wrote the code, the tests and the project documents in this repository. No
-third-party source code is reused; the only external inputs are the course
-materials and the peer-reviewed sources listed in the report reference list.
+This repository contains the code, tests and project documents submitted for this
+assessment. No third-party source code is reused; the only external inputs are the
+course materials and the peer-reviewed sources listed in the report reference list.
 Built-in Node.js modules (`node:http`, `node:fs`, `node:crypto`, `node:test`) are
 used as documented in the Node.js API documentation.
 
